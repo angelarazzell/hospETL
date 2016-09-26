@@ -1,0 +1,12 @@
+1,Admitted to a Hospital Bed and became a LODGED PATIENT of the same Health Care Provider 
+2,Discharged and follow up treatment to be provided by GENERAL PRACTITIONER 
+3,Discharged and did not require any follow up treatment
+4,Referred to AE Clinic
+5,Referred to Fracture Clinic
+6,Referred to other Out-Patient Clinic 
+7,Transferred to other Health Care Provider 
+10,Died in Department
+11,Referred to other health CARE PROFESSIONAL 
+12,Left Department before being seen for treatment
+13,Left Department having refused treatment
+14,Other
