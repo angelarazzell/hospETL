@@ -51,12 +51,13 @@ with open('./historic_data/elective_bookings/OP_create.csv','w') as fout:
 print("completed outpatient create")
 
 #OP modify
-with open('./historic_data/elective_bookings/OP_created.csv','r') as fin, \
+with open('./historic_data/elective_bookings/OP_create.csv','r') as fin, \
      open('./historic_data/elective_bookings/OP_modify.csv','w') as fout:
     reader = csv.reader(fin, delimiter=',')
     outputWriter = csv.writer(fout)
     booking_stage = 'Modify'
     booking_type = 'OP'
+    intended_management = ''
     count = 0
     for line in reader:
         count += 1
@@ -71,7 +72,6 @@ with open('./historic_data/elective_bookings/OP_created.csv','r') as fin, \
         tdelta = parse(line[8])-parse(line[9])
         modify_date = parse(line[9]) + timedelta(days = random.randrange(0,max(int(tdelta.days),1)))
         expected_discharge = appt_date
-        intended_management = ''
         specialty = line[11]
         priority = line[12]
         booking_list = [booking_no, pathway_id, medicalid, booking_type, booking_stage, intended_management, hospital_id, doctor_id, appt_date, modify_date, expected_discharge, specialty,priority]
