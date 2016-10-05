@@ -1,10 +1,4 @@
-
---bring in only the most recent booking
-select pathway_id, max(modify_date) as max_modify
-into #pathwaybp
-from elective_booking_bp
-group by pathway_id;
-
+--create inpatient and daycase activity view from elective bookings data.
 create or replace view rep.vw_inpatientdc as
 select
   coalesce(cin.encounterno,book.booking_id) as encounterno,
@@ -44,7 +38,7 @@ from (select pathway_id, max(modify_date) as max_modify
   
 where booking_type = 'IP';
 --------------------------------------------------------------
-
+--create outpatient activity view from elective bookings data.
 create or replace view rep.vw_outpatient as
 select
   coalesce(cin.encounterno,book.booking_id) as encounterno,
@@ -71,7 +65,6 @@ select
 	cout.outcome as attd_outcome
 	
 from (select pathway_id, max(modify_date) as max_modify
-      into #pathwaybp
       from elective_booking
       group by pathway_id) pathw
   inner join elective_booking book
