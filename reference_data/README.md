@@ -2,6 +2,7 @@
 Reference Files
 ===============
 
-All files except hospitallookup.txt and doctor_lookup.txt are referenced from the NHS data dictionary.
+hospitallookup.txt and doctor_lookup.txt are generated codes, the doctor names were created by Python's fake-factory https://pypi.python.org/pypi/fake-factory/0.7.2 
 
-http://www.datadictionary.nhs.uk 
+The other codes and descriptions in these files are referenced from the NHS Data Dictionary http://www.datadictionary.nhs.uk.
+
