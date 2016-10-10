@@ -1,30 +1,40 @@
 -- Reference table creations
 DROP TABLE IF EXISTS ref_icdten;
-create table ref_icdten
+CREATE TABLE ref_icdten
 (
-icdcode varchar(8) not null,
-icd_desc varchar(65) null,
-icd_long_desc varchar (255) null,
-nf_excl char(1) null
-);
+  icdcode varchar(8) not null,
+  icd_desc varchar(65) null,
+  icd_long_desc varchar (255) null,
+  nf_excl char(1) null);
 
 DROP TABLE IF EXISTS ref_hospital;
 CREATE TABLE ref_hospital
 (
- hospital_code  varchar(5)  NOT NULL,
- hospital_desc  varchar(50) NOT NULL
-);
+  hospital_code varchar(5) not null,
+  hospital_desc varchar(50) not null);
 
 DROP TABLE IF EXISTS ref_ercomplaint;
 CREATE TABLE ref_ercomplaint
 (
- complaint_code  integer NOT NULL,
- complaint_desc  varchar(50) NOT NULL
-);
+  complaint_code integer not null,
+  complaint_desc varchar(50) not null);
+
+DROP TABLE IF EXISTS ref_doctor;
+CREATE TABLE ref_doctor
+(
+  dr_code varchar(5) not null,
+  dr_name varchar(50) not null);
+ 
+DROP TABLE IF EXISTS ref_erdisposal;
+CREATE TABLE ref_erdisposal
+(
+  disposal_code integer not null,
+  disposal_desc varchar(100) not null);
+ 
 --------------------------------------------------------------
 --Activity data creations
 DROP TABLE IF EXISTS patient;
-create table patient(
+CREATE TABLE patient(
 	medicalid integer not null,
 	firstname varchar(30) not null,
 	lastname varchar(30) not null,
@@ -45,33 +55,31 @@ create table patient(
   referrer_code varchar(8) not null,
   provider_code varchar(8) not null,
   social_sec varchar(10) not null,
-  occupation varchar(50) null
-);
+  occupation varchar(50) null);
 
 DROP TABLE IF EXISTS encounter;
-CREATE TABLE encounter_keys
+CREATE TABLE encounter
 (
- medicalid integer NOT NULL,
- encounterid integer NOT NULL,
- arrival_date  timestamp DEFAULT ('now'::text)::timestamp without time zone NOT NULL,
- seen_date timestamp DEFAULT ('now'::text)::timestamp without time zone NOT NULL,
- leave_date  timestamp DEFAULT ('now'::text)::timestamp without time zone NOT NULL,
- hospital_code varchar(10) NOT NULL,
- doctor_id varchar(10) NOT NULL,
- admitted_flag boolean NOT NULL,
- reason_code integer NOT NULL,
- discharge_code  integer NOT NULL
-);
+  medicalid integer not null,
+  encounterid integer not null,
+  arrival_date timestamp default ('now'::text)::timestamp without time zone not null,
+  seen_date timestamp default ('now'::text)::timestamp without time zone not null,
+  leave_date timestamp default ('now'::text)::timestamp without time zone not null,
+  hospital_code varchar(10) not null,
+  doctor_id varchar(10) not null,
+  admitted_flag boolean not null,
+  reason_code integer not null,
+  discharge_code integer not null);
 
 DROP TABLE IF EXISTS apc_diagnosis;
 CREATE TABLE apc_diagnosis
 (
- medicalid int null,
- apcid varchar(15) not null,
- procedureid int null, 
- procedurecode varchar(15) not null,
- primaryflag bool not null, 
- sequence_no smallint not null);
+  medicalid int null,
+  apcid varchar(15) not null,
+  procedureid int null, 
+  procedurecode varchar(15) not null,
+  primaryflag bool not null, 
+  sequence_no smallint not null);
 
 DROP TABLE IF EXISTS admissions;
 CREATE TABLE admissions
@@ -79,16 +87,15 @@ CREATE TABLE admissions
   medical_id int null,
   ed_id int null,
   apc_id varchar(15) null,
-  admission_date timestamp DEFAULT ('now'::text)::timestamp without time zone NOT NULL,
+  admission_date timestamp default ('now'::text)::timestamp without time zone not null,
   doctor_id varchar(10) null,
   hospital_id varchar(10) null,
-  discharge_date timestamp DEFAULT ('now'::text)::timestamp without time zone NOT NULL,  
+  discharge_date timestamp default ('now'::text)::timestamp without time zone not null, 
   dead_on_discharge boolean null,
   ward varchar(25) null,
-  expected_discharge_date timestamp DEFAULT ('now'::text)::timestamp without time zone NOT NULL,
+  expected_discharge_date timestamp default ('now'::text)::timestamp without time zone not null,
   comments varchar(500) not null,
   Admission_status varchar(10) null);
-
 
 DROP TABLE IF EXISTS elective_booking;
 CREATE TABLE elective_booking
@@ -101,17 +108,17 @@ CREATE TABLE elective_booking
   intended_management varchar(10) null,
   hospital_id varchar(8) null, 
   doctor_id varchar(10) null, 
-  appt_date timestamp DEFAULT ('now'::text)::timestamp without time zone NOT NULL, 
-  modify_date timestamp DEFAULT ('now'::text)::timestamp without time zone NOT NULL,
-  expected_discharge timestamp DEFAULT ('now'::text)::timestamp without time zone NULL, 
-  specialty INT NULL,
-  priority CHAR NULL);
-        
-drop TABLE if exists checkin;
-create TABLE checkin
+  appt_date timestamp default ('now'::text)::timestamp without time zone not null, 
+  modify_date timestamp default ('now'::text)::timestamp without time zone not null,
+  expected_discharge timestamp default ('now'::text)::timestamp without time zone null, 
+  specialty INT null,
+  priority CHAR null);
+ 
+DROP TABLE IF EXISTS checkin;
+CREATE TABLE checkin
 (
   encounterno varchar(15) not null,
-  pathway_id varchar(15) not null,  
+  pathway_id varchar(15) not null, 
   medical_id int not null,
   adm_method_code varchar(3) null,
   attend_code smallint not null,
@@ -119,18 +126,18 @@ create TABLE checkin
   hospital_id varchar(10) not null,
   ward varchar(20) null, 
   doctor_id varchar(10) not null,
-  appt_date timestamp DEFAULT ('now'::text)::timestamp without time zone NOT NULL, 
-  arrival_datetime timestamp DEFAULT ('now'::text)::timestamp without time zone NULL,  
-  expected_discharge timestamp DEFAULT ('now'::text)::timestamp without time zone NULL,  
+  appt_date timestamp default ('now'::text)::timestamp without time zone not null, 
+  arrival_datetime timestamp default ('now'::text)::timestamp without time zone null, 
+  expected_discharge timestamp default ('now'::text)::timestamp without time zone null, 
   specialty int not null);
  
-drop TABLE if exists;
+DROP TABLE IF EXISTS checkout;
 CREATE TABLE checkout
 (
   encounterno varchar(15) not null,
   pathway_id varchar(15) not null,
   medicalid int not null,
   dead_on_discharge boolean not null,
-  discharge_date timestamp DEFAULT ('now'::text)::timestamp without time zone NULL,
+  discharge_date timestamp default ('now'::text)::timestamp without time zone null,
   outcome varchar(10) not null);
 
