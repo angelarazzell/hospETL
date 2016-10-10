@@ -2,9 +2,9 @@
 HospETL
 =======
 
-Generate a schema for fictional hospital data to deliver a prototype of an analytics platform. URL: www.hospetl.website 
+Generate a schema for fictional hospital data to deliver a prototype of an analytics platform.
 
-Investigate Amazon Redshift as a distributed data warehouse solution, in order to deliver a dashboard in Flask to display reporting metrics such as:
+Investigate Amazon Redshift as a distributed data warehouse solution, in order to deliver a dashboard in Flask (URL: www.hospetl.website) to display reporting metrics such as:
 - Inpatient Activity
 - Emergency Activity including waiting time breaches
 - Frequent Flyer report (patients who frequently visit the emergency department)
@@ -22,11 +22,11 @@ I created the schema for operational activity data:
 
 ## Pre-requisites
 
-Python 3 to generate the data, using the Faker package
+Python 3 to generate the data, using the Faker package https://pypi.python.org/pypi/fake-factory/0.7.2 
 
 AWS account
 
-Boto3: to upload files to Amazon S3.
+Boto3: to upload files to Amazon S3 for storage.
 
 Amazon Redshift cluster: this project used 4 dc1.large nodes.
 
