@@ -32,7 +32,7 @@ CREATE TABLE ref_erdisposal
   disposal_desc varchar(100) not null);
  
 --------------------------------------------------------------
---Activity data creations
+--Activity data table creations
 DROP TABLE IF EXISTS patient;
 CREATE TABLE patient(
   medicalid integer not null,
@@ -62,9 +62,9 @@ CREATE TABLE encounter
 (
   medicalid integer not null,
   encounterid integer not null,
-  arrival_date timestamp default ('now'::text)::timestamp without time zone not null,
-  seen_date timestamp default ('now'::text)::timestamp without time zone not null,
-  leave_date timestamp default ('now'::text)::timestamp without time zone not null,
+  arrival_date datetime not null,
+  seen_date datetime not null,
+  leave_date datetime not null,
   hospital_code varchar(10) not null,
   doctor_id varchar(10) not null,
   admitted_flag boolean not null,
@@ -87,13 +87,13 @@ CREATE TABLE admissions
   medical_id int null,
   ed_id int null,
   apc_id varchar(15) null,
-  admission_date timestamp default ('now'::text)::timestamp without time zone not null,
+  admission_date datetime not null,
   doctor_id varchar(10) null,
   hospital_id varchar(10) null,
-  discharge_date timestamp default ('now'::text)::timestamp without time zone not null, 
+  discharge_date datetime not null, 
   dead_on_discharge boolean null,
   ward varchar(25) null,
-  expected_discharge_date timestamp default ('now'::text)::timestamp without time zone not null,
+  expected_discharge_date datetime not null,
   comments varchar(500) not null,
   Admission_status varchar(10) null);
 
@@ -108,9 +108,9 @@ CREATE TABLE elective_booking
   intended_management varchar(10) null,
   hospital_id varchar(8) null, 
   doctor_id varchar(10) null, 
-  appt_date timestamp default ('now'::text)::timestamp without time zone not null, 
-  modify_date timestamp default ('now'::text)::timestamp without time zone not null,
-  expected_discharge timestamp default ('now'::text)::timestamp without time zone null, 
+  appt_date datetime not null, 
+  modify_date datetime not null,
+  expected_discharge datetime null, 
   specialty INT null,
   priority CHAR null);
  
@@ -126,9 +126,9 @@ CREATE TABLE checkin
   hospital_id varchar(10) not null,
   ward varchar(20) null, 
   doctor_id varchar(10) not null,
-  appt_date timestamp default ('now'::text)::timestamp without time zone not null, 
-  arrival_datetime timestamp default ('now'::text)::timestamp without time zone null, 
-  expected_discharge timestamp default ('now'::text)::timestamp without time zone null, 
+  appt_date datetime not null, 
+  arrival_datetime datetime null, 
+  expected_discharge datetime null, 
   specialty int not null);
  
 DROP TABLE IF EXISTS checkout;
@@ -138,6 +138,6 @@ CREATE TABLE checkout
   pathway_id varchar(15) not null,
   medicalid int not null,
   dead_on_discharge boolean not null,
-  discharge_date timestamp default ('now'::text)::timestamp without time zone null,
+  discharge_date datetime null,
   outcome varchar(10) not null);
 
