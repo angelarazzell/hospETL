@@ -1,26 +1,23 @@
+--emergency visits and breach numbers
 
---create view rep.vw_EmergencyVisit as
-select 
-  case when datediff(hours,enc.arrival_date,enc.seen_date) > 6 
-        then 'Breach'
-        else 'NonBreach'
-  end as Breach,
-  count(*) as NoVisits,
-  hos.hospital_desc
+CREATE OR REPLACE VIEW rep.vw_emergencycount AS 
+ SELECT sum(
+        CASE
+            WHEN date_diff('hours', enc.arrival_date, enc.seen_date) > 6 THEN 1
+            ELSE 0
+        END) AS breach, sum(
+        CASE
+            WHEN date_diff('hours', enc.arrival_date, enc.seen_date) <= 6 THEN 1
+            ELSE 0
+        END) AS nonbreach, hos.hospital_desc
+   FROM encounter enc, ref_hospital hos
+  WHERE hos.hospital_code = enc.hospital_code AND enc.arrival_date >= date_add('day', -28, getdate())
+  GROUP BY hos.hospital_desc;
 
-from encounter enc, ref_hospital hos
-
-where arrival_date >= dateadd(day, -14, getdate()) 
-
-group by case when datediff(hours,enc.arrival_date,enc.seen_date) > 6 
-        then 'Breach'
-        else 'NonBreach'
-  end,
-  hos.hospital_desc
-  
-
+------------------------------------------------------------------------------------------------------
 --quarterly IP activity
---create or replace view rep.vw_ipsparkline as
+
+create or replace view rep.vw_ipsparkline as
 select hos.hospital_desc,
   sum(case when datepart(quarter, discharge_date) = datepart(quarter,dateadd(quarter, 1, start_period))
           and  datepart(year, discharge_date) = datepart(year, start_period)
@@ -38,6 +35,7 @@ select hos.hospital_desc,
           and  datepart(year, discharge_date) = datepart(year, end_period)
       then 1
       else 0 end) as Q4,
+  --quarter by quarter activity differences:
   sum(case when datepart(quarter, discharge_date) = datepart(quarter, start_period)
           and  datepart(year, discharge_date) = datepart(year, start_period)
       then 1 else 0 end) -sum(case when datepart(quarter, discharge_date) = datepart(quarter,dateadd(quarter, 1, start_period))
@@ -72,17 +70,3 @@ from rep.vw_inpatientdc ip
 where discharge_date between start_period and end_period
 
 group by hos.hospital_desc;
-
--------
---readmissions
-select datediff(hours,arrival_date,seen_date) as wait_time, e.*, h.hospital_desc, c.complaint_desc 
-
-from encounter e, ref_hospital h, ref_ercomplaint c 
-
-where e.hospital_code = h.hospital_code 
-and e.reason_code = c.complaint_code 
-and arrival_date >= dateadd(day, -7, getdate()) 
-and datediff(hours,arrival_date,seen_date) > 6 
-
-order by datediff(hours,arrival_date,seen_date) desc
------------------------------------------------------------------
