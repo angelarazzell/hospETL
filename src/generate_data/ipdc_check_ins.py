@@ -1,3 +1,7 @@
+# Generate check in data for inpatients and daycases
+# (read adn create from the inpatients/daycases bookings files), 
+# upload to storage in Amazon S3 buckets
+
 import random
 import time
 import boto3
@@ -26,7 +30,7 @@ def strTimeProp(start, end, format, prop):
 def randomDate(start, end, prop):
     return strTimeProp(start, end, '%m/%d/%Y %I:%M %p', prop)
 
-with open('./historic_data/elective_bookings/DC_create_sat.csv','r') as fin, \
+with open('./historic_data/elective_bookings/DC_create.csv','r') as fin, \
      open('./historic_data/check_ins/ipdc_checkin.csv','w') as fout:
     reader = csv.reader(fin, delimiter=',')
     outputWriter = csv.writer(fout)
@@ -50,7 +54,9 @@ with open('./historic_data/elective_bookings/DC_create_sat.csv','r') as fin, \
             arrival_datetime = (appt_date - timedelta(minutes = 65)) + timedelta(minutes = random.gauss(65, 15))
             expected_discharge =  line[10]
             specialty = line[11]
-            checkin_list = [encounterno, pathway_id, medicalid, adm_method, attend_code, intended_management, hospital_id, ward, doctor_id, appt_date, arrival_datetime, expected_discharge, specialty]
+            checkin_list = [encounterno, pathway_id, medicalid, adm_method, \
+                attend_code, intended_management, hospital_id, ward, doctor_id, \
+                appt_date, arrival_datetime, expected_discharge, specialty]
             outputWriter.writerow(checkin_list)
         else:
             encounterno = 'DC' + '%s' % (count)
@@ -70,10 +76,12 @@ with open('./historic_data/elective_bookings/DC_create_sat.csv','r') as fin, \
             	arrival_datetime = ''
             expected_discharge = ''
             specialty = line[11]
-            checkin_list = [encounterno, pathway_id, medicalid, adm_method, attend_code, intended_management, hospital_id, ward, doctor_id, appt_date, arrival_datetime, expected_discharge, specialty]
+            checkin_list = [encounterno, pathway_id, medicalid, adm_method, \
+                attend_code, intended_management, hospital_id, ward, doctor_id, \ 
+                appt_date, arrival_datetime, expected_discharge, specialty]
             outputWriter.writerow(checkin_list)
 
-with open('./historic_data/elective_bookings/DC_modify_sat.csv','r') as fin, \
+with open('./historic_data/elective_bookings/DC_modify.csv','r') as fin, \
      open('./historic_data/check_ins/ipdc_checkin.csv','a') as fout:
     reader = csv.reader(fin, delimiter=',')
     outputWriter = csv.writer(fout)
@@ -97,7 +105,9 @@ with open('./historic_data/elective_bookings/DC_modify_sat.csv','r') as fin, \
             arrival_datetime = (appt_date - timedelta(minutes = 65)) + timedelta(minutes = random.gauss(65, 15))
             expected_discharge =  line[10]
             specialty = line[11]
-            checkin_list = [encounterno, pathway_id, medicalid, adm_method, attend_code, intended_management, hospital_id, ward, doctor_id, appt_date, arrival_datetime, expected_discharge, specialty]
+            checkin_list = [encounterno, pathway_id, medicalid, adm_method, \
+                attend_code, intended_management, hospital_id, ward, doctor_id, \ 
+                appt_date, arrival_datetime, expected_discharge, specialty]
             outputWriter.writerow(checkin_list)
         else:
             encounterno = 'DC' + '%s' % (count) + 'M'
@@ -117,11 +127,13 @@ with open('./historic_data/elective_bookings/DC_modify_sat.csv','r') as fin, \
             	arrival_datetime = ''
             expected_discharge = ''
             specialty = line[11]
-            checkin_list = [encounterno, pathway_id, medicalid, adm_method, attend_code, intended_management, hospital_id, ward, doctor_id, appt_date, arrival_datetime, expected_discharge, specialty]
+            checkin_list = [encounterno, pathway_id, medicalid, adm_method, \
+                attend_code, intended_management, hospital_id, ward, doctor_id, \
+                appt_date, arrival_datetime, expected_discharge, specialty]
             outputWriter.writerow(checkin_list)
         
 #inpatient stays:
-with open('./historic_data/elective_bookings/IP_create_sat.csv','r') as fin, \
+with open('./historic_data/elective_bookings/IP_create.csv','r') as fin, \
      open('./historic_data/check_ins/ipdc_checkin.csv','a') as fout:
     reader = csv.reader(fin, delimiter=',')
     outputWriter = csv.writer(fout)
@@ -145,7 +157,9 @@ with open('./historic_data/elective_bookings/IP_create_sat.csv','r') as fin, \
             arrival_datetime = (appt_date - timedelta(minutes = 65)) + timedelta(minutes = random.gauss(65, 15))
             expected_discharge =  line[10]
             specialty = line[11]
-            checkin_list = [encounterno, pathway_id, medicalid, adm_method, attend_code, intended_management, hospital_id, ward, doctor_id, appt_date, arrival_datetime, expected_discharge, specialty]
+            checkin_list = [encounterno, pathway_id, medicalid, adm_method, \
+                attend_code, intended_management, hospital_id, ward, doctor_id, \
+                appt_date, arrival_datetime, expected_discharge, specialty]
             outputWriter.writerow(checkin_list)
         else:
             encounterno = 'IP' + '%s' % (count)
@@ -165,10 +179,12 @@ with open('./historic_data/elective_bookings/IP_create_sat.csv','r') as fin, \
             	arrival_datetime = ''
             expected_discharge = ''
             specialty = line[11]
-            checkin_list = [encounterno, pathway_id, medicalid, adm_method, attend_code, intended_management, hospital_id, ward, doctor_id, appt_date, arrival_datetime, expected_discharge, specialty]
+            checkin_list = [encounterno, pathway_id, medicalid, adm_method, \
+                attend_code, intended_management, hospital_id, ward, doctor_id, \
+                appt_date, arrival_datetime, expected_discharge, specialty]
             outputWriter.writerow(checkin_list)
 
-with open('./historic_data/elective_bookings/IP_modify_sat.csv','r') as fin, \
+with open('./historic_data/elective_bookings/IP_modify.csv','r') as fin, \
      open('./historic_data/check_ins/ipdc_checkin.csv','a') as fout:
     reader = csv.reader(fin, delimiter=',')
     outputWriter = csv.writer(fout)
@@ -192,7 +208,9 @@ with open('./historic_data/elective_bookings/IP_modify_sat.csv','r') as fin, \
             arrival_datetime = (appt_date - timedelta(minutes = 65)) + timedelta(minutes = random.gauss(65, 15))
             expected_discharge =  line[10]
             specialty = line[11]
-            checkin_list = [encounterno, pathway_id, medicalid, adm_method, attend_code, intended_management, hospital_id, ward, doctor_id, appt_date, arrival_datetime, expected_discharge, specialty]
+            checkin_list = [encounterno, pathway_id, medicalid, adm_method, \
+                attend_code, intended_management, hospital_id, ward, doctor_id, \
+                appt_date, arrival_datetime, expected_discharge, specialty]
             outputWriter.writerow(checkin_list)
         else:
             encounterno = 'DC' + '%s' % (count) + 'M' 
@@ -212,7 +230,9 @@ with open('./historic_data/elective_bookings/IP_modify_sat.csv','r') as fin, \
             	arrival_datetime = ''
             expected_discharge = ''
             specialty = line[11]
-            checkin_list = [encounterno, pathway_id, medicalid, adm_method, attend_code, intended_management, hospital_id, ward, doctor_id, appt_date, arrival_datetime, expected_discharge, specialty]
+            checkin_list = [encounterno, pathway_id, medicalid, adm_method, \
+                attend_code, intended_management, hospital_id, ward, doctor_id, \
+                appt_date, arrival_datetime, expected_discharge, specialty]
             outputWriter.writerow(checkin_list)
             
 s3.meta.client.upload_file('./historic_data/check_outs/ipdc_checkin.csv', 'angela-hospital-data', 'historic_data/'+'ipdc_checkin.csv')
