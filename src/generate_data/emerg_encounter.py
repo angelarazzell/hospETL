@@ -1,11 +1,16 @@
+# Generate data for emergency encounters
+# Upload to storage in Amazon S3 buckets
+
 import json
 import sys
 import random
 import time
+import boto3
 import csv
 from datetime import datetime, timedelta
 from dateutil.parser import parse
-from faker import Factory
+
+s3 = boto3.resource('s3')
 
 #strTimeProp() and randomDate() functions are from the following stack overflow forum:
 #http://stackoverflow.com/questions/4874764/problem-with-format-datetime-in-python
@@ -25,7 +30,7 @@ def strTimeProp(start, end, format, prop):
 def randomDate(start, end, prop):
     return strTimeProp(start, end, '%m/%d/%Y %I:%M %p', prop)
 
-def encounter_data(fake):
+def encounterData():
     """create fake encounter data for historic emergency admissions and write to csv file"""
     outputFile = open('./historic_data/encounters/encounter_data.csv', 'w', newline='')
     outputWriter = csv.writer(outputFile)
@@ -59,12 +64,14 @@ def encounter_data(fake):
         else:
             admitted_flag = 0
 
-        encounter_list = [medical_id, encounter_id, arrival_date, seen_date, leave_date, hospital_id, doctor_id, admitted_flag, reason_code, discharge_code]
+        encounter_list = [medical_id, encounter_id, arrival_date, seen_date, \
+            leave_date, hospital_id, doctor_id, admitted_flag, reason_code, discharge_code]
         outputWriter.writerow(encounter_list)
     outputFile.close()
- 
+
+s3.meta.client.upload_file('./historic_data/encounters/encounter_data.csv', 'angela-hospital-data', 'historic_data/'+'encounter_data.csv')
+
 if __name__ == "__main__":
     start_time = datetime.now()
-    fake = Factory.create()
-    encounter_data(fake)
+    encounterData()
     print ('total_time: ' + str(datetime.now() - start_time))

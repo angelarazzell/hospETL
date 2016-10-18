@@ -1,3 +1,4 @@
+
 import json
 import sys
 import random
@@ -10,7 +11,9 @@ from dateutil.parser import parse
 s3 = boto3.resource('s3')
 
 def patient_data(gen_data):
-    """generates 10,000,000 records of fake patient demographic data"""
+    """generates 10,000,000 records of fake patient demographic data
+    using the Faker package https://pypi.python.org/pypi/fake-factory/0.7.2"""
+    
     mar_stat = ['single','married'] * 3
     mar_stat.extend(['divorced','widowed','separated','','divorced']
     gender_list = [1,2]*25

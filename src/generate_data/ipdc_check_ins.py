@@ -1,5 +1,5 @@
 # Generate check in data for inpatients and daycases
-# (read adn create from the inpatients/daycases bookings files), 
+# (read and create from the inpatients/daycases bookings files), 
 # upload to storage in Amazon S3 buckets
 
 import random
