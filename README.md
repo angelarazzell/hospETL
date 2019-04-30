@@ -2,14 +2,14 @@
 HospETL
 =======
 
-Generate a schema for fictional hospital data to deliver a prototype of an analytics platform.
+Generate a schema for fictional hospital data to deliver a prototype of an analytics platform. 
 
-Investigate Amazon Redshift as a distributed data warehouse solution, in order to deliver a dashboard in Flask (URL: www.hospetl.website) to display reporting metrics such as:
+Investigate Amazon Redshift as a distributed data warehouse solution, in order to deliver a dashboard in Flask to display reporting metrics such as:
 - Inpatient Activity
 - Emergency Activity including waiting time breaches
 - Frequent Flyer report (patients who frequently visit the emergency department)
 
-I benchmarked the performance of best practice measures within Redshift, such as applying the distribution key, sort key, columnar compression.
+I benchmarked the performance of best practice measures within Redshift, such as applying the distribution key, sort key, columnar compression. Slides are [here](https://www.slideshare.net/AngelaRazzell/hospetl-delivering-a-healthcare-analytics-platform).
 
 ## Details
 
